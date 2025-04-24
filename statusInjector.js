@@ -5,17 +5,15 @@
     // Flag to prevent overlapping status checks
     let isSendingStatus = false;
 
-    // Function to validate and retrieve the mining status from the DOM
     function getStatus() {
         try {
             const statusEl = document.querySelector('div[style*="border:1px solid white"] p');
-            // Validate the element: Ensure it exists, is connected to the DOM, and matches expected format
-            if (statusEl && statusEl.isConnected && statusEl.textContent.match(/Mining:\s*(Stopped|Struggling|Active)/i)) {
+            if (statusEl) {
                 const status = statusEl.textContent.trim().replace(/\s+/g, ' ');
                 console.log(`${lh} - Found status: ${status}, Element: ${statusEl.outerHTML}`);
                 return status;
             } else {
-                console.log(`${lh} - Status element not found or invalid with selector 'div[style*="border:1px solid white"] p'.`);
+                console.log(`${lh} - Status element not found with selector 'div[style*="border:1px solid white"] p'.`);
                 return 'Mining: Unknown';
             }
         } catch (error) {
@@ -24,7 +22,6 @@
         }
     }
 
-    // Function to send the status to the opener window
     async function sendStatus() {
         // Prevent overlapping sends
         if (isSendingStatus) {
@@ -36,8 +33,7 @@
         try {
             const status = getStatus();
             if (window.opener) {
-                // Secure cross-origin messaging by specifying the target origin
-                window.opener.postMessage({ type: 'miningStatus', status: status }, 'https://www.pond0x.com');
+                window.opener.postMessage({ type: 'miningStatus', status: status }, '*');
                 console.log(`${lh} - Sent status to opener: ${status}`);
             } else {
                 console.warn(`${lh} - No window.opener found, status not sent.`);
@@ -55,7 +51,7 @@
         const startTime = Date.now();
         const checkInterval = setInterval(() => {
             const statusEl = document.querySelector('div[style*="border:1px solid white"] p');
-            if (statusEl && statusEl.isConnected) {
+            if (statusEl) {
                 clearInterval(checkInterval);
                 const elapsedTime = Math.floor((Date.now() - startTime) / 1000);
                 console.log(`${lh} - Status element detected after ${elapsedTime}s, starting status checks...`);
