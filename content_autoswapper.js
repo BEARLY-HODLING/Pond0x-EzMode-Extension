@@ -1701,7 +1701,7 @@
 
     if (hasReloaded) await restoreSwapState();
 
-    async function initializeControlPanel() {
+        async function initializeControlPanel() {
         if (!controlPanel || !document.body.contains(controlPanel)) {
             const button = await waitForSwapButton();
             if (!button) {
@@ -2111,14 +2111,6 @@
 
             const sellTokenSelect = document.createElement('select');
             sellTokenSelect.id = 'sellTokenSelect';
-            sellTokenSelect.style.cssText = `
-                font-size: 11px;
-                background: linear-gradient(to bottom, #4a1d7d, #8a2be2);
-                color: #ffffff;
-                border: 1px solid #ffffff;
-                border-radius: 5px;
-                padding: 2px 4px;
-            `;
 
             const buyTokenLabel = document.createElement('label');
             buyTokenLabel.textContent = 'Buy:';
@@ -2126,14 +2118,6 @@
 
             const buyTokenSelect = document.createElement('select');
             buyTokenSelect.id = 'buyTokenSelect';
-            buyTokenSelect.style.cssText = `
-                font-size: 11px;
-                background: linear-gradient(to bottom, #4a1d7d, #8a2be2);
-                color: #ffffff;
-                border: 1px solid #ffffff;
-                border-radius: 5px;
-                padding: 2px 4px;
-            `;
 
             const updateTokenButton = document.createElement('button');
             updateTokenButton.id = 'updateTokenButton';
@@ -2553,6 +2537,22 @@
                 #tooltipBox.visible {
                     display: block;
                     opacity: 1;
+                }
+                #sellTokenSelect, #buyTokenSelect {
+                    font-size: 11px;
+                    background: linear-gradient(to bottom, #4a1d7d, #8a2be2);
+                    color: #ffffff;
+                    border: 1px solid #ffffff;
+                    border-radius: 5px;
+                    padding: 2px 4px;
+                }
+                #sellTokenSelect option, #buyTokenSelect option {
+                    background: #2a1a4a;
+                    color: #ffffff;
+                }
+                #sellTokenSelect option:checked, #buyTokenSelect option:checked {
+                    background: #4a1d7d;
+                    color: #ffffff;
                 }
             `;
             document.head.appendChild(style);
